@@ -25,14 +25,14 @@ def median_cut_extraction(arr, height, width, palette_size):
     while len(c) < palette_size:
         largest_c_idx = np.argmax(c)
         # add the two new boxes to the list, while removing the split box.
-        c = c[:largest_c_idx] + c[largest_c_idx].split() + c[largest_c_idx + 1 :]
+        c = c[:largest_c_idx] + c[largest_c_idx].split() + c[largest_c_idx + 1:]
 
     colors = [Color(map(int, box.average), box.size / full_box_size) for box in c]
 
     return colors
 
 
-def extract_colors(image, palette_size=5, resize=True, mode="KM", sort_mode=None):
+def extract_colors(image: str | Image, palette_size=5, resize=True, mode="KM", sort_mode=None):
     """
     Extracts a set of 'palette_size' colors from the given image.
     :param image: path to Image file
@@ -43,8 +43,12 @@ def extract_colors(image, palette_size=5, resize=True, mode="KM", sort_mode=None
     :return: a list of the extracted colors
     """
 
-    # open the image
-    img = Image.open(image).convert("RGB")
+    # check if image is PIL Image
+    if not isinstance(image, Image.Image):
+        # open the image
+        image = Image.open(image)
+
+    img = image.convert("RGB")
     if resize:
         img = img.resize((256, 256))
     width, height = img.size
