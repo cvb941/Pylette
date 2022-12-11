@@ -15,7 +15,6 @@ def median_cut_extraction(arr, palette_size):
     :return:
     """
 
-    arr = arr.reshape(-1, arr.shape[-1])
     c = [ColorBox(arr)]
     full_box_size = c[0].size
 
@@ -30,7 +29,7 @@ def median_cut_extraction(arr, palette_size):
     return colors
 
 
-def extract_colors(image, palette_size=5, resize=True, mode="KM", sort_mode=None):
+def extract_colors(image, palette_size=5, resize=True, mode="KM", sort_mode=None, filter_color = None):
     """
     Extracts a set of 'palette_size' colors from the given image.
     :param image: path to Image file
@@ -50,6 +49,10 @@ def extract_colors(image, palette_size=5, resize=True, mode="KM", sort_mode=None
     if resize:
         img = img.resize((256, 256))
     arr = np.asarray(img)
+
+    # Remove filter color if defined
+    if filter_color is not None:
+        arr = arr[~np.all(arr == filter_color, axis=-1)]
 
     if mode == "KM":
         colors = k_means_extraction(arr, palette_size)
@@ -73,7 +76,6 @@ def k_means_extraction(arr, palette_size):
     :param palette_size: number of colors
     :return: a palette of colors sorted by frequency
     """
-    arr = arr.reshape(-1, arr.shape[-1])
     model = KMeans(n_clusters=palette_size)
     labels = model.fit_predict(arr)
     palette = np.array(model.cluster_centers_, dtype=np.int)
