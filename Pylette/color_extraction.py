@@ -2,7 +2,7 @@ import numpy as np
 from PIL import Image
 from sklearn.cluster import KMeans
 
-from Pylette.aux import ColorBox
+from Pylette.auxiliary import ColorBox
 from Pylette.color import Color
 from Pylette.palette import Palette
 
