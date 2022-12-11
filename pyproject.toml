@@ -6,7 +6,7 @@ authors = ["Ivar Stangeby"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "~3.8"
+python = "^3.8"
 Pillow = "^9.0.1"
 numpy = "^1.22.2"
 scikit-learn = "^1.0.2"
